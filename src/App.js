@@ -8,6 +8,7 @@ import CreateContent from "./components/createContent";
 class App extends Component {
   constructor(props) {
     super(props);
+    this.max_content_id = 3;
     this.state = {
       mode: "read",
       welcome: { title: "welcome", sub: "World Web Wide" },
@@ -24,16 +25,26 @@ class App extends Component {
     var _title = null;
     var _desc = null;
     var _article = null;
-    if (this.props.mode === "read") {
+    console.log(_title);
+    if (this.state.mode === "read") {
       _title = this.state.welcome.title;
       _desc = this.state.welcome.sub;
-      _article = <CreateContent></CreateContent>;
-    } else if (this.props.mode === "welcome") {
+    } else if (this.state.mode === "welcome") {
       _title = this.state.contents[1].title;
       _desc = this.state.contents[1].desc;
-      _article = <CreateContent></CreateContent>;
-    } else if (this.props.mode === "create") {
-      _article = <CreateContent></CreateContent>;
+    } else if (this.state.mode === "create") {
+      _article = (
+        <CreateContent
+          onSubmit={function (_title, _desc) {
+            this.max_content_id = this.max_content_id + 1;
+            this.state.contents.push({
+              id: this.max_content_id,
+              title: _title,
+              desc: _desc,
+            });
+          }}
+        ></CreateContent>
+      );
     }
     return (
       // Only html
